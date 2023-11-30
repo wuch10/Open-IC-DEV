@@ -1,5 +1,5 @@
 # Copyright 2023 仲夏叶.
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
 
 FROM mcr.microsoft.com/devcontainers/base:bookworm
 
@@ -62,7 +62,7 @@ RUN mkdir /usr/local/uvm \
     && tar -zxvf uvm-1.0p1.tar.gz -C /usr/local/uvm \
     && rm -rf uvm-1.0p1.tar.gz
 
-RUN apt-get install -y iverilog gtkwave verilator perl-doc
+RUN apt-get install -y iverilog gtkwave verilator yosys graphviz perl-doc
 
 RUN apt-get install -y bazel-bootstrap flex bison m4 \
     && git clone --branch v0.0-3430-g060bde0f --depth 1 https://github.com/chipsalliance/verible.git \
@@ -71,21 +71,18 @@ RUN apt-get install -y bazel-bootstrap flex bison m4 \
     && cd /workspace \
     && rm -rf verible
 
-RUN touch /etc/profile.d/systemc.sh \
-    && echo "export SYSTEMC_ROOT=/usr/local/systemc-2.3.4" >> /etc/profile.d/systemc.sh \
-    && echo "export SYSTEMC_INCLUDE=/usr/local/systemc-2.3.4/include" >> /etc/profile.d/systemc.sh \
-    && echo "export SYSTEMC_LIB=/usr/local/systemc-2.3.4/lib-linux64" >> /etc/profile.d/systemc.sh \
-    && echo "export LD_LIBRARY_PATH=$SYSTEMC_LIB:$LD_LIBRARY_PATH" >> /etc/profile.d/systemc.sh \
-    && touch /etc/profile.d/uvm.sh \
-    && echo "export UVM_ROOT=/usr/local/uvm" >> /etc/profile.d/uvm.sh \
-    && echo "export UVM_HOME=$UVM_ROOT/1800.2-2020-2.0" >> /etc/profile.d/uvm.sh
-
 RUN apt-get install -y python3-full python3-pip \
     && pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 
 RUN apt-get install -y zsh tcsh fish zsh-syntax-highlighting zsh-autosuggestions \
-    && mkdir -p /home/vscode/.oh-my-zsh/custom/plugins \
-    && ln -s /usr/share/zsh-syntax-highlighting /home/vscode/.oh-my-zsh/custom/plugins \
-    && ln -s /usr/share/zsh-autosuggestions /home/vscode/.oh-my-zsh/custom/plugins \
-    && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip svn vscode zsh-syntax-highlighting zsh-autosuggestions)/g' /home/vscode/.zshrc \
+    && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip svn vscode)/g' /home/vscode/.zshrc \
     && chsh -s /bin/zsh vscode
+
+RUN touch /etc/profile.d/systemc.sh \
+    && echo 'export SYSTEMC_ROOT=/usr/local/systemc-2.3.4' >> /etc/profile.d/systemc.sh \
+    && echo 'export SYSTEMC_INCLUDE=$SYSTEMC_ROOT/include' >> /etc/profile.d/systemc.sh \
+    && echo 'export SYSTEMC_LIB=$SYSTEMC_ROOT/lib-linux64' >> /etc/profile.d/systemc.sh \
+    && echo 'export LD_LIBRARY_PATH=$SYSTEMC_LIB:$LD_LIBRARY_PATH' >> /etc/profile.d/systemc.sh \
+    && touch /etc/profile.d/uvm.sh \
+    && echo 'export UVM_ROOT=/usr/local/uvm' >> /etc/profile.d/uvm.sh \
+    && echo 'export UVM_HOME=$UVM_ROOT/1800.2-2020-2.0' >> /etc/profile.d/uvm.sh

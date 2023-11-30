@@ -1,6 +1,6 @@
 <!--
  Copyright 2023 仲夏叶.
- SPDX-License-Identifier: Apache-2.0
+ SPDX-License-Identifier: MIT
 -->
 
 # Open IC DEV
@@ -30,3 +30,5 @@ code .
 - [x] [`oh-my-zsh`](https://github.com/ohmyzsh/ohmyzsh)
 - [x] [`vscode`](https://code.visualstudio.com)
 - [x] [`git`](https://git-scm.com/)
+- [x] [`Docker`](https://www.docker.com/products/docker-desktop/)
+- [x] [`Debian`](https://www.debian.org/index.zh-cn.html)

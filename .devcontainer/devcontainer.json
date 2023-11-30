@@ -55,7 +55,15 @@
 				"Hyeon.c-math-viewer",
 				"buster.ndjson-colorizer",
 				"ms-vscode.cmake-tools",
-				"wayou.vscode-todo-highlight"
+				"wayou.vscode-todo-highlight",
+        "tintinweb.graphviz-interactive-preview",
+        "ms-vscode.hexeditor",
+        "ms-vscode.cmake-tools",
+        "VisualStudioExptTeam.vscodeintellicode",
+        "VisualStudioExptTeam.vscodeintellicode-completions",
+        "ms-python.isort",
+        "ms-python.python",
+        "KevinRose.vsc-python-indent"
 			]
 		}
 	}
