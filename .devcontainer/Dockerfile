@@ -108,10 +108,11 @@ RUN REMOTE=https://mirrors.tuna.tsinghua.edu.cn/git/ohmyzsh.git \
 RUN useradd vscode -u 1000 -s /bin/zsh \
     && touch /etc/sudoers.d/vscode \
     && echo 'vscode ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/vscode \
-    && chmod 440 /etc/sudoers.d/vscode
+    && chmod 440 /etc/sudoers.d/vscode \
+    && chown vscode:vscode /workspace
 
 USER vscode
-WORKDIR /home/vscode
+WORKDIR /workspace
 
 RUN REMOTE=https://mirrors.tuna.tsinghua.edu.cn/git/ohmyzsh.git \
     sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" \
