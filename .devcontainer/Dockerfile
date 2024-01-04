@@ -1,17 +1,39 @@
-# Copyright 2023 仲夏叶.
+# Copyright 2024 仲夏叶.
 # SPDX-License-Identifier: MIT
 
-FROM mcr.microsoft.com/devcontainers/base:bookworm
-
-WORKDIR /workspace
+FROM debian:bookworm
 
 RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/debian.sources \
     && sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/debian.sources \
-    && apt-get update
+    && apt update -y \
+    && apt full-upgrade -y \
+    && mkdir /workspace \
+    && rm -rf /var/cache/*
 
-RUN apt-get install -y build-essential autoconf automake tree vim wget curl git git-lfs git-flow subversion
+RUN apt install -y tree vim wget curl git subversion apt-utils sudo \
+    build-essential cmake autoconf automake flex bison m4 \
+    unzip bzip2 xz-utils \
+    git-lfs git-flow git-svn git-all git-doc git-credential-oauth git-crypt \
+    bash zsh fish csh tcsh \
+    python3 python3-pip python3-venv python3-poetry python3-pytest python3-autopep8 python3-full \
+    iverilog verilator yosys gtkwave graphviz \
+    bazel-bootstrap perl-doc protobuf-compiler openjdk-17-jdk-headless openjdk-17-jre-headless \
+    allure tldr \
+    bash-completion zsh-autosuggestions zsh-syntax-highlighting \
+    && rm -rf /var/cache/*
 
-RUN wget -c https://github.com/accellera-official/systemc/archive/refs/tags/2.3.4.tar.gz \
+RUN cd /workspace \
+    && git clone --branch v0.0-3430-g060bde0f --depth 1 https://github.com/chipsalliance/verible.git \
+    && cd verible \
+    && bazel run -c opt :install -- -s /usr/local/bin \
+    && cd /workspace \
+    && rm -rf verible \
+    && rm -rf $HOME/.cache/bazel \
+    && rm -rf /var/cache/*
+
+# or RUN apt install libsystemc libsystemc-dev
+RUN cd /workspace \
+    && wget -c https://github.com/accellera-official/systemc/archive/refs/tags/2.3.4.tar.gz \
     && mkdir /workspace/systemc-2.3.4 \
     && tar -zxvf 2.3.4.tar.gz \
     && cd /workspace/systemc-2.3.4 \
@@ -19,70 +41,79 @@ RUN wget -c https://github.com/accellera-official/systemc/archive/refs/tags/2.3.
     && aclocal \
     && automake --add-missing \
     && cd build \
-    && ../configure --prefix=/usr/local/systemc-2.3.4 \
+    && ../configure --prefix=/usr/local/share/systemc-2.3.4 \
     && make -j$(nproc) \
     && make install \
     && cd /workspace \
-    && ln -s /usr/local/systemc-2.3.4/lib-linux64/ /usr/local/lib \
+    && ln -s /usr/local/share/systemc-2.3.4/lib-linux64/ /usr/local/share/lib \
     && rm -rf /workspace/systemc-2.3.4 \
     && rm -rf /workspace/2.3.4.tar.gz
 
-RUN mkdir /usr/local/uvm \
-    && wget -c https://www.accellera.org/images/downloads/standards/uvm/UVM-18002-2020-20tar.gz \
-    && tar -zxvf UVM-18002-2020-20tar.gz -C /usr/local/uvm \
+RUN mkdir /usr/local/share/uvm \
+    && wget -c https://accellera.org/images/downloads/standards/uvm/UVM-18002-2020-20tar.gz \
+    && tar -zxvf UVM-18002-2020-20tar.gz -C /usr/local/share/uvm \
     && rm -rf UVM-18002-2020-20tar.gz \
-    && wget -c https://www.accellera.org/images/downloads/standards/uvm/UVM-18002-2020-11tar.gz \
-    && tar -zxvf UVM-18002-2020-11tar.gz -C /usr/local/uvm \
+    && wget -c https://accellera.org/images/downloads/standards/uvm/UVM-18002-2020-11tar.gz \
+    && tar -zxvf UVM-18002-2020-11tar.gz -C /usr/local/share/uvm \
     && rm -rf UVM-18002-2020-11tar.gz \
-    && wget -c https://www.accellera.org/images/downloads/standards/uvm/UVM-18002-2020-10tar.gz \
-    && tar -zxvf UVM-18002-2020-10tar.gz -C /usr/local/uvm \
+    && wget -c https://accellera.org/images/downloads/standards/uvm/UVM-18002-2020-10tar.gz \
+    && tar -zxvf UVM-18002-2020-10tar.gz -C /usr/local/share/uvm \
     && rm -rf UVM-18002-2020-10tar.gz \
-    && wget -c https://www.accellera.org/images/downloads/standards/uvm/UVM-18002-2017-11tar.gz \
-    && tar -zxvf UVM-18002-2017-11tar.gz -C /usr/local/uvm \
+    && wget -c https://accellera.org/images/downloads/standards/uvm/UVM-18002-2017-11tar.gz \
+    && tar -zxvf UVM-18002-2017-11tar.gz -C /usr/local/share/uvm \
     && rm -rf UVM-18002-2017-11tar.gz \
-    && wget -c https://www.accellera.org/images/downloads/standards/uvm/Accellera-1800.2-2017-1.0.tar.gz \
-    && tar -zxvf Accellera-1800.2-2017-1.0.tar.gz -C /usr/local/uvm \
+    && wget -c https://accellera.org/images/downloads/standards/uvm/Accellera-1800.2-2017-1.0.tar.gz \
+    && tar -zxvf Accellera-1800.2-2017-1.0.tar.gz -C /usr/local/share/uvm \
     && rm -rf Accellera-1800.2-2017-1.0.tar.gz \
-    && wget -c https://www.accellera.org/images/downloads/standards/uvm/uvm-1.2.tar.gz \
-    && tar -zxvf uvm-1.2.tar.gz -C /usr/local/uvm \
+    && wget -c https://accellera.org/images/downloads/standards/uvm/uvm-1.2.tar.gz \
+    && tar -zxvf uvm-1.2.tar.gz -C /usr/local/share/uvm \
     && rm -rf uvm-1.2.tar.gz \
-    && wget -c https://www.accellera.org/images/downloads/standards/uvm/uvm-1.1d.tar.gz \
-    && tar -zxvf uvm-1.1d.tar.gz -C /usr/local/uvm \
+    && wget -c https://accellera.org/images/downloads/standards/uvm/uvm-1.1d.tar.gz \
+    && tar -zxvf uvm-1.1d.tar.gz -C /usr/local/share/uvm \
     && rm -rf uvm-1.1d.tar.gz \
-    && wget -c https://www.accellera.org/images/downloads/standards/uvm/uvm-1.1c.tar.gz \
-    && tar -zxvf uvm-1.1c.tar.gz -C /usr/local/uvm \
+    && wget -c https://accellera.org/images/downloads/standards/uvm/uvm-1.1c.tar.gz \
+    && tar -zxvf uvm-1.1c.tar.gz -C /usr/local/share/uvm \
     && rm -rf uvm-1.1c.tar.gz \
-    && wget -c https://www.accellera.org/images/downloads/standards/uvm/uvm-1.1b.tar.gz \
-    && tar -zxvf uvm-1.1b.tar.gz -C /usr/local/uvm \
+    && wget -c https://accellera.org/images/downloads/standards/uvm/uvm-1.1b.tar.gz \
+    && tar -zxvf uvm-1.1b.tar.gz -C /usr/local/share/uvm \
     && rm -rf uvm-1.1b.tar.gz \
-    && wget -c https://www.accellera.org/images/downloads/standards/uvm/uvm-1.1a.tar.gz \
-    && tar -zxvf uvm-1.1a.tar.gz -C /usr/local/uvm \
+    && wget -c https://accellera.org/images/downloads/standards/uvm/uvm-1.1a.tar.gz \
+    && tar -zxvf uvm-1.1a.tar.gz -C /usr/local/share/uvm \
     && rm -rf uvm-1.1a.tar.gz \
-    && wget -c https://www.accellera.org/images/downloads/standards/uvm/uvm-1.0p1.tar.gz \
-    && tar -zxvf uvm-1.0p1.tar.gz -C /usr/local/uvm \
+    && wget -c https://accellera.org/images/downloads/standards/uvm/uvm-1.0p1.tar.gz \
+    && tar -zxvf uvm-1.0p1.tar.gz -C /usr/local/share/uvm \
     && rm -rf uvm-1.0p1.tar.gz
 
-RUN apt-get install -y iverilog gtkwave verilator yosys graphviz perl-doc
-
-RUN apt-get install -y bazel-bootstrap flex bison m4 \
-    && git clone --branch v0.0-3430-g060bde0f --depth 1 https://github.com/chipsalliance/verible.git \
-    && cd verible \
-    && bazel run -c opt :install -- -s /usr/local/bin \
-    && cd /workspace \
-    && rm -rf verible
-
-RUN apt-get install -y python3-full python3-pip \
-    && pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
-
-RUN apt-get install -y zsh tcsh fish zsh-syntax-highlighting zsh-autosuggestions \
-    && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip svn vscode)/g' /home/vscode/.zshrc \
-    && chsh -s /bin/zsh vscode
-
 RUN touch /etc/profile.d/systemc.sh \
-    && echo 'export SYSTEMC_ROOT=/usr/local/systemc-2.3.4' >> /etc/profile.d/systemc.sh \
+    && echo 'export SYSTEMC_ROOT=/usr/local/share/systemc-2.3.4' >> /etc/profile.d/systemc.sh \
     && echo 'export SYSTEMC_INCLUDE=$SYSTEMC_ROOT/include' >> /etc/profile.d/systemc.sh \
     && echo 'export SYSTEMC_LIB=$SYSTEMC_ROOT/lib-linux64' >> /etc/profile.d/systemc.sh \
     && echo 'export LD_LIBRARY_PATH=$SYSTEMC_LIB:$LD_LIBRARY_PATH' >> /etc/profile.d/systemc.sh \
     && touch /etc/profile.d/uvm.sh \
-    && echo 'export UVM_ROOT=/usr/local/uvm' >> /etc/profile.d/uvm.sh \
-    && echo 'export UVM_HOME=$UVM_ROOT/1800.2-2020-2.0' >> /etc/profile.d/uvm.sh
+    && echo 'export UVM_ROOT=/usr/local/share/uvm' >> /etc/profile.d/uvm.sh \
+    && echo 'export UVM_HOME=$UVM_ROOT/1800.2-2020-2.0' >> /etc/profile.d/uvm.sh \
+    && touch /etc/profile.d/rustup.sh \
+    && echo 'export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup' >> /etc/profile.d/rustup.sh \
+    && echo 'export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup' >> /etc/profile.d/rustup.sh \
+    && touch /etc/profile.d/golang.sh \
+    && echo 'export GO111MODULE=on' >> /etc/profile.d/golang.sh \
+    && echo 'export GOPATH=/usr/local/share/go/gopath' >> /etc/profile.d/golang.sh \
+    && echo 'export GOPROXY=https://goproxy.cn,direct' >> /etc/profile.d/golang.sh
+
+RUN REMOTE=https://mirrors.tuna.tsinghua.edu.cn/git/ohmyzsh.git \
+    sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" \
+    && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
+    && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip)/g' $HOME/.zshrc
+
+RUN useradd vscode -u 1000 -s /bin/zsh \
+    && touch /etc/sudoers.d/vscode \
+    && echo 'vscode ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/vscode \
+    && chmod 440 /etc/sudoers.d/vscode
+
+USER vscode
+WORKDIR /home/vscode
+
+RUN REMOTE=https://mirrors.tuna.tsinghua.edu.cn/git/ohmyzsh.git \
+    sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" \
+    && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
+    && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip vscode)/g' $HOME/.zshrc

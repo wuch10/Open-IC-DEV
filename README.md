@@ -32,3 +32,4 @@ code .
 - [x] [`git`](https://git-scm.com/)
 - [x] [`Docker`](https://www.docker.com/products/docker-desktop/)
 - [x] [`Debian`](https://www.debian.org/index.zh-cn.html)
+- [x] [`tldr`](https://github.com/tldr-pages/tldr)

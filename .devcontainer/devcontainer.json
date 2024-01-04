@@ -3,11 +3,11 @@
 {
 	"name": "Debian-IC-DEV",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	// "image": "mcr.microsoft.com/devcontainers/base:bookworm",
-	"build": {
-		// Path is relative to the devcontainer.json file.
-		"dockerfile": "Dockerfile"
-	},
+	"image": "zxytech/open-ic-dev:bookworm",
+	// "build": {
+	// 	// Path is relative to the devcontainer.json file.
+	// 	"dockerfile": "Dockerfile"
+	// },
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {

@@ -19,3 +19,6 @@ indent_style = tab
 
 [*.{v,vh,sv,svh,sva,svi,svp}]
 indent_size = 2
+
+[*.{yml,yaml}]
+indent_size = 2
