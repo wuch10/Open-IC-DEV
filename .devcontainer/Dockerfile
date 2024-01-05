@@ -95,7 +95,7 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip)/g' $HOME/.zshrc
 
 RUN groupadd vscode -g 1000 \
-    && useradd vscode -u 1000 -s /bin/zsh \
+    && useradd vscode -u 1000 -g 1000 -s /bin/zsh -m \
     && touch /etc/sudoers.d/vscode \
     && echo 'vscode ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers.d/vscode \
     && chmod 440 /etc/sudoers.d/vscode \
