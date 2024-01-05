@@ -3,7 +3,9 @@
 
 FROM debian:bookworm
 
-RUN apt update -y \
+RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/debian.sources \
+    && sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/debian.sources \
+    && apt update -y \
     && apt full-upgrade -y \
     && mkdir /workspace \
     && rm -rf /var/cache/*
@@ -89,9 +91,18 @@ RUN touch /etc/profile.d/systemc.sh \
     && echo 'export LD_LIBRARY_PATH=$SYSTEMC_LIB:$LD_LIBRARY_PATH' >> /etc/profile.d/systemc.sh \
     && touch /etc/profile.d/uvm.sh \
     && echo 'export UVM_ROOT=/usr/local/share/uvm' >> /etc/profile.d/uvm.sh \
-    && echo 'export UVM_HOME=$UVM_ROOT/1800.2-2020-2.0' >> /etc/profile.d/uvm.sh
+    && echo 'export UVM_HOME=$UVM_ROOT/1800.2-2020-2.0' >> /etc/profile.d/uvm.sh \
+    && touch /etc/profile.d/rustup.sh \
+    && echo 'export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup' >> /etc/profile.d/rustup.sh \
+    && echo 'export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup' >> /etc/profile.d/rustup.sh \
+    && touch /etc/profile.d/golang.sh \
+    && echo 'export GO111MODULE=on' >> /etc/profile.d/golang.sh \
+    && echo 'export GOPATH=/usr/local/share/go/gopath' >> /etc/profile.d/golang.sh \
+    && echo 'export GOPROXY=https://goproxy.cn,direct' >> /etc/profile.d/golang.sh
 
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
+RUN REMOTE=https://mirrors.tuna.tsinghua.edu.cn/git/ohmyzsh.git \
+    sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" \
+    && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
     && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip)/g' $HOME/.zshrc
 
 RUN groupadd vscode -g 1000 \
@@ -104,5 +115,7 @@ RUN groupadd vscode -g 1000 \
 USER vscode
 WORKDIR /workspace
 
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
-    && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip)/g' $HOME/.zshrc
+RUN REMOTE=https://mirrors.tuna.tsinghua.edu.cn/git/ohmyzsh.git \
+    sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)" \
+    && pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple \
+    && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip vscode)/g' $HOME/.zshrc
