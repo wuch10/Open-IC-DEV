@@ -3,7 +3,7 @@
 {
 	"name": "Debian-IC-DEV",
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "zxytech/open-ic-dev:bookworm",
+	"image": "zxytech/open-ic-dev:main",
 	// "build": {
 	// 	// Path is relative to the devcontainer.json file.
 	// 	"dockerfile": "Dockerfile"
