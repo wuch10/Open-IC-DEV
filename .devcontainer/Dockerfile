@@ -94,6 +94,7 @@ RUN touch /etc/profile.d/systemc.sh \
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
     && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip)/g' $HOME/.zshrc
 
+
 RUN groupadd vscode -g 1000 \
     && useradd vscode -u 1000 -g 1000 -s /bin/zsh -m \
     && touch /etc/sudoers.d/vscode \
@@ -105,4 +106,8 @@ USER vscode
 WORKDIR /workspace
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" \
-    && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip)/g' $HOME/.zshrc
+    && sed -i 's/plugins=(git)/plugins=(git git-flow-avh gitignore git-lfs pip)/g' $HOME/.zshrc \
+    && mkdir -p $HOME/.local/share/tldr \
+    && tldr --update
+
+
