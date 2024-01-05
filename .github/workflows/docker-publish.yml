@@ -1,5 +1,5 @@
 # Copyright 2024 仲夏叶.
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: MIT
 
 # https://docs.docker.com/build/ci/github-actions/multi-platform/
 name: Docker multi-platform Image CI
