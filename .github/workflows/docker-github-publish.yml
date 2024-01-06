@@ -1,7 +1,7 @@
 # Copyright 2024 仲夏叶.
 # SPDX-License-Identifier: MIT
 
-name: Docker Publish CI
+name: ghcr.io/stornado/open-ic-dev:main
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by

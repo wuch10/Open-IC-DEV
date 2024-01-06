@@ -5,6 +5,12 @@
 
 # Open IC DEV
 
+[![zxytech/open-ic-dev:main](https://github.com/stornado/Open-IC-DEV/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/stornado/Open-IC-DEV/actions/workflows/docker-publish.yml)
+[![Docker Stars](https://img.shields.io/docker/stars/zxytech/open-ic-dev.svg)](https://hub.docker.com/r/zxytech/open-ic-dev/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/zxytech/open-ic-dev.svg)](https://hub.docker.com/r/zxytech/open-ic-dev/)
+[![ghcr.io/stornado/open-ic-dev:main](https://github.com/stornado/Open-IC-DEV/actions/workflows/docker-github-publish.yml/badge.svg)](https://github.com/stornado/Open-IC-DEV/actions/workflows/docker-github-publish.yml)
+
+
 Open IC DEV 是一个基于 `iVerilog`, `SystemC`, `UVM`, `verible`, `verilator`, `oh-my-zsh`，`vscode` 等开源工具链的开发环境。
 
 ## 快速开始
