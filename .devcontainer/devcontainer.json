@@ -3,11 +3,11 @@
 {
   "name": "Debian-IC-DEV",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "zxytech/open-ic-dev:cn-main", // or "zxytech/open-ic-dev:main", "ghcr.io/stornado/open-ic-dev:main"
-  // "build": {
+  "image": "wuch10/open-ic-dev:cn-main", // or "zxytech/open-ic-dev:main", "ghcr.io/stornado/open-ic-dev:main"
+  //"build": {
   //   // Path is relative to the devcontainer.json file.
   //   "dockerfile": "Dockerfile.cn"
-  // },
+  //},
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {
   //   "ghcr.io/devcontainers/features/desktop-lite:1": {
@@ -63,12 +63,37 @@
         "VisualStudioExptTeam.vscodeintellicode-completions",
         "ms-python.isort",
         "ms-python.python",
-        "KevinRose.vsc-python-indent"
+        "KevinRose.vsc-python-indent",
+        "aaron-bond.better-comments",
+        "yo1dog.cursor-align",
+        "PKief.material-icon-theme",
+        "xi.p4",
+        "alefragnani.project-manager",
+        "sleutho.tcl",
+        "annsk.alignment",
+        "chouzz.vscode-better-align",
+        "ms-vscode.cpptools",
+        "mksafi.find-word-at-cursor",
+        "mhutchie.git-graph",
+        "donjayamanne.githistory",
+        "eamodio.gitlens",
+        "yo-C-ta.insert-multiple-rows",
+        "yzhang.markdown-all-in-one",
+        "mrcai.martin-code-tool",
+        "esbenp.prettier-vscode",
+        "ebicochineal.select-highlight-cochineal-color",
+        "AiryShift.spaces-inside-braces",
+        "albert.TabOut",
+        "teros-technology.teroshdl",
+        "ryu1kn.text-marker",
+        "Alibaba-Cloud.tongyi-lingma",
+        "chipsalliance.verible",
+        "kukdh1.verible-formatter"
       ]
     }
   }
   // Configure tool-specific properties.
   // "customizations": {},
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-  // "remoteUser": "root"
+  "remoteUser": "root"
 }
