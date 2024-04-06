@@ -12,13 +12,13 @@ trim_trailing_whitespace = true
 insert_final_newline = false
 
 [*.json]
-indent_size = 2
+indent_size = 4
 
 [Makefile]
 indent_style = tab
 
 [*.{v,vh,sv,svh,sva,svi,svp}]
-indent_size = 2
+indent_size = 4
 
 [*.{yml,yaml}]
-indent_size = 2
+indent_size = 4

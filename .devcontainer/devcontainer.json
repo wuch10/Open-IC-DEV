@@ -1,35 +1,49 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/debian
 {
-  "name": "Debian-IC-DEV",
+  "name": "IC-DEV",
+  //"image": "zxytech/open-ic-dev:cn-main", // or "zxytech/open-ic-dev:main", 
+  //"image": "phyzli/ubuntu18.04_xfce4_vnc4server_synopsys2016"  //https://zhuanlan.zhihu.com/p/266225644
+  "image": "ubuntu:jammy", //https://igorfreire.com.br/2023/06/18/vscode-setup-for-systemverilog-development/
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "zxytech/open-ic-dev:cn-main", // or "zxytech/open-ic-dev:main", "ghcr.io/stornado/open-ic-dev:main"
   //"build": {
   //   // Path is relative to the devcontainer.json file.
   //   "dockerfile": "Dockerfile.cn"
   //},
   // Features to add to the dev container. More info: https://containers.dev/features.
-  // "features": {
-  //   "ghcr.io/devcontainers/features/desktop-lite:1": {
-  //     "password": "my-secret-password",
-  //     "webPort": 6080,
-  //     "vncPort": 5901,
-  //     "version": "latest"
-  //   }
-  // },
+  //"features": {
+  //  "ghcr.io/devcontainers/features/desktop-lite:1": {
+  //    "password": "gordon",
+  //    "webPort": 6080,
+  //    "vncPort": 5901,
+  //    "version": "latest"
+  //  }
+  //},
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  // "forwardPorts": [
-  //   6080,
-  //   5901
-  // ],
-  // "portsAttributes": {
-  //   "6080": {
-  //     "label": "web-desktop"
-  //   },
-  //   "5901": {
-  //     "label": "vnc-desktop"
-  //   }
-  // },
+  //"forwardPorts": [
+  //  6080,
+  //  5901
+  //],
+  //"portsAttributes": {
+  //  "6080": {
+  //    "label": "web-desktop"
+  //  },
+  //  "5901": {
+  //    "label": "vnc-desktop"
+  //  }
+  //},
+  "runArgs": [
+    "--name",
+    "IC-DEV"
+  ],
+  "remoteEnv": {
+    "LANG": "C.UTF-8"
+  },
+  "postCreateCommand": "./.devcontainer/post-create.sh",
+  "mounts": [
+      "source=Z:\09_OutWork\Anlogic,target=/home/vscode,type=bind,consistency=cached",
+	  "source=Z:\,target=/workspace,type=bind,consistency=cached"
+  ]
   // Configure tool-specific properties.
   "customizations": {
     // Configure properties specific to VS Code.
@@ -95,5 +109,5 @@
   // Configure tool-specific properties.
   // "customizations": {},
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-  "remoteUser": "root"
+  //"remoteUser": "root"
 }

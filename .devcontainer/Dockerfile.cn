@@ -1,12 +1,14 @@
 
 FROM debian:bookworm
 
+# Use domestic source
+#RUN sudo apt install -y ca-certificates apt-transport-https
 RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/debian.sources \
     && sed -i 's/security.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.list.d/debian.sources \
     && apt update -y \
     && apt full-upgrade -y \
     && mkdir /workspace \
-    && rm -rf /var/cache/*
+    && rm -rf /var/cache/*	
 
 RUN apt install -y tree neovim vim wget curl git subversion apt-utils sudo \
     build-essential cmake autoconf automake flex bison m4 \
